@@ -49,6 +49,11 @@ $UDPServerRun 514
 ###########################
 #### GLOBAL DIRECTIVES ####
 ###########################
+{% from "defaults.j2" import def_rsyslog -%}
+
+{% set gconf = (SYSLOG_CONFIG | d({})).get('GLOBAL', {}) -%}
+{% set format = gconf.get('format') -%}
+{% set fw_name = gconf.get('welf_firewall_name', hostname) -%}
 #
 # Use traditional timestamp format.
 # To enable high precision timestamps, comment out the following line.
@@ -58,6 +63,32 @@ $UDPServerRun 514
 # Define a custom template
 $template SONiCFileFormat,"%timegenerated%.%timegenerated:::date-subseconds% %HOSTNAME% %syslogseverity-text:::uppercase% %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
 $ActionFileDefaultTemplate SONiCFileFormat
+
+template(name="WelfRemoteFormat" type="string" string="%TIMESTAMP% id=firewall time=\"%timereported\
+:::date-year%-%timereported:::date-month%-%timereported:::date-day% %timereported:::date-hour%:%timereported:::date-minute%:%timereported\
+:::date-second%\" fw=\"{{ fw_name }}\" pri=%syslogpriority% msg=\"%syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\"\n")
+
+#Set remote syslog server
+{% for server in SYSLOG_SERVER %}
+{% set conf = SYSLOG_SERVER[server] | d({}) -%}
+
+{% set port = conf.get('port', def_rsyslog.port) -%}
+{% set proto = conf.get('protocol', def_rsyslog.proto) -%}
+{% set vrf = conf.get('vrf', 'default') -%}
+{% set trap = conf.get('trap', gconf.get('trap', def_rsyslog.trap)) -%}
+{% set filter = conf.get('filter') -%}
+{% set regex = conf.get('filter_regex') -%}
+
+{% set fmodifier = '!' if filter == 'exclude' else '' %}
+{% set device = 'mgmt' if vrf in ['mgmt', 'management'] else 'eth0' %}
+{% set template = 'WelfRemoteFormat' if format == 'welf' else 'SONiCFileFormat' -%}
+
+{% if filter %}
+:msg, {{ fmodifier }}ereregex, "{{ regex }}"
+{% endif %}
+*.{{ trap }}
+action(type="omfwd" Target="{{ server }}" Port="{{ port }}" Protocol="{{ proto }}" Device="{{ device }}" Template="{{ template }}")
+{% endfor %}
 
 #
 # Set the default permissions for all log files.
