@@ -495,12 +495,23 @@
                 "source": "1111::1111",
                 "port": "514",
                 "vrf": "Vrf_blue"
+            },
+            "somehostname": {
+                "filter": "include",
+                "filter_regex": "ololo",
+                "port": "514",
+                "protocol": "tcp",
+                "trap": "notice",
+                "vrf": "default"
             }
         },
         "SYSLOG_CONFIG" : {
             "GLOBAL": {
                 "rate_limit_interval": "5",
-                "rate_limit_burst": "100"
+                "rate_limit_burst": "100",
+                "format": "welf",
+                "welf_firewall_name": "bla",
+                "trap": "info"
             }
         },
         "SYSLOG_CONFIG_FEATURE" : {
