@@ -82,7 +82,7 @@ module sonic-syslog {
             enum notice;
             enum warn;
             enum error;
-            enum critical;
+            enum crit;
         }
     }
 

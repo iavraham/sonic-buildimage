@@ -204,6 +204,59 @@
                     {
                         "name": "bgp",
                         "support_syslog_rate_limit": "true"
+    "SYSLOG_SERVER_HOSTNAME" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "thebestswitch"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_SERVER_HOSTNAME_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "-"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_SERVER_FILTER_TYPE" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "filter": "exclude"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_SERVER_FILTER_TYPE_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "filter": "excludalol"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_SERVER_FILTER_REGEX" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "filter_regex": "^expeliarmus.*"
                     }
                 ]
             }
@@ -217,6 +270,13 @@
                         "service": "invalid",
                         "rate_limit_interval": "100",
                         "rate_limit_burst": "20000"
+    "SYSLOG_SERVER_PROTOCOL" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "protocol": "tcp"
                     }
                 ]
             }
@@ -239,6 +299,25 @@
                     {
                         "name": "bgp",
                         "support_syslog_rate_limit": "true"
+    "SYSLOG_SERVER_PROTOCOL_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "protocol": "order66"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_SERVER_TRAP" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "trap": "info"
                     }
                 ]
             }
@@ -263,6 +342,82 @@
                         "support_syslog_rate_limit": "true"
                     }
                 ]
+    "SYSLOG_SERVER_TRAP_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_SERVER": {
+                "SYSLOG_SERVER_LIST": [
+                    {
+                        "server_address": "1.2.3.4",
+                        "trap": "information"
+                    }
+                ]
+            }
+        }
+    },
+    "SYSLOG_CONFIG_VALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "format": "welf",
+                    "welf_firewall_name": "welf-fw-name",
+                    "trap": "debug"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_FORMAT" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "format": "standard"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_FORMAT_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "format": "nonstandard"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_FORMAT_WELF_FW_NAME" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "format": "welf",
+                    "welf_firewall_name": "welf-switch"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_FORMAT_WELF_FW_NAME_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "format": "standard",
+                    "welf_firewall_name": "welf-switch"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_TRAP" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "trap": "crit"
+                }
+            }
+        }
+    },
+    "SYSLOG_CONFIG_TRAP_INVALID" : {
+        "sonic-syslog:sonic-syslog": {
+            "sonic-syslog:SYSLOG_CONFIG": {
+                "GLOBAL": {
+                    "trap": "critical"
+                }
             }
         }
     }
