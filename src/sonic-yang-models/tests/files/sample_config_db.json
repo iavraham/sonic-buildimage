@@ -501,7 +501,7 @@
                 "filter_regex": "ololo",
                 "port": "514",
                 "protocol": "tcp",
-                "trap": "notice",
+                "severity": "notice",
                 "vrf": "default"
             }
         },
@@ -511,7 +511,7 @@
                 "rate_limit_burst": "100",
                 "format": "welf",
                 "welf_firewall_name": "bla",
-                "trap": "info"
+                "severity": "info"
             }
         },
         "SYSLOG_CONFIG_FEATURE" : {

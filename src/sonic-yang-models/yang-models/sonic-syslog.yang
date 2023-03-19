@@ -141,7 +141,7 @@ module sonic-syslog {
                     type rsyslog-protocol;
                 }
 
-                leaf trap {
+                leaf severity {
                     description "Limit the severity to send logs to remote server";
                     type rsyslog-severity;
                 }
@@ -174,7 +174,7 @@ module sonic-syslog {
                     must "(../format != 'standard')";
                 }
 
-                leaf trap {
+                leaf severity {
                     type rsyslog-severity;
                 }
 

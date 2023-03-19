@@ -75,7 +75,7 @@ template(name="WelfRemoteFormat" type="string" string="%TIMESTAMP% id=firewall t
 {% set port = conf.get('port', def_rsyslog.port) -%}
 {% set proto = conf.get('protocol', def_rsyslog.proto) -%}
 {% set vrf = conf.get('vrf', 'default') -%}
-{% set trap = conf.get('trap', gconf.get('trap', def_rsyslog.trap)) -%}
+{% set severity = conf.get('severity', gconf.get('severity', def_rsyslog.severity)) -%}
 {% set filter = conf.get('filter') -%}
 {% set regex = conf.get('filter_regex') -%}
 
@@ -86,7 +86,7 @@ template(name="WelfRemoteFormat" type="string" string="%TIMESTAMP% id=firewall t
 {% if filter %}
 :msg, {{ fmodifier }}ereregex, "{{ regex }}"
 {% endif %}
-*.{{ trap }}
+*.{{ severity }}
 action(type="omfwd" Target="{{ server }}" Port="{{ port }}" Protocol="{{ proto }}" Device="{{ device }}" Template="{{ template }}")
 {% endfor %}
 

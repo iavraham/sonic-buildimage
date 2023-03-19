@@ -60,6 +60,8 @@
     },
     "SYSLOG_CONFIG_FEATURE_INVALID_BURST": {
         "desc": "Configure invalid rate_limit_burst in SYSLOG_CONFIG_FEATURE.",
+        "eStrKey": "InvalidValue"
+    },
     "SYSLOG_SERVER_HOSTNAME": {
         "desc": "Load syslog server table with hostname"
     },
@@ -84,14 +86,14 @@
         "desc": "Invalid syslog server protocol",
         "eStrKey": "InvalidValue"
     },
-    "SYSLOG_SERVER_TRAP": {
-        "desc": "Syslog server valid trap"
+    "SYSLOG_SERVER_SEVERITY": {
+        "desc": "Syslog server valid severity"
     },
-    "SYSLOG_SERVER_TRAP_INVALID": {
-        "desc": "Syslog server invalid trap",
+    "SYSLOG_SERVER_SEVERITY_INVALID": {
+        "desc": "Syslog server invalid severity",
         "eStrKey": "InvalidValue"
     },
-    "SYSLOG_CONFIG_VALID": {
+    "SYSLOG_CONFIG_GLOBAL_VALID": {
         "desc": "Global syslog configuration"
     },
     "SYSLOG_CONFIG_FORMAT": {
@@ -108,11 +110,11 @@
         "desc": "Syslog format WELF invalid firewall name",
         "eStrKey": "Must"
     },
-    "SYSLOG_CONFIG_TRAP": {
-        "desc": "Global syslog trap"
+    "SYSLOG_CONFIG_SEVERITY": {
+        "desc": "Global syslog severity"
     },
-    "SYSLOG_CONFIG_TRAP_INVALID": {
-        "desc": "Global invalid syslog trap",
+    "SYSLOG_CONFIG_SEVERITY_INVALID": {
+        "desc": "Global invalid syslog severity",
         "eStrKey": "InvalidValue"
     }
 }
