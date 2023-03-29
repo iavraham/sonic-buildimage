@@ -109,7 +109,9 @@
     "SYSLOG_CONFIG": {
         "GLOBAL": {
             "rate_limit_interval" : "0",
-            "rate_limit_burst" : "0"
+            "rate_limit_burst" : "0",
+            "format": "standard",
+            "severity": "notice"
         }
     },
     "SYSLOG_CONFIG_FEATURE": {
@@ -144,11 +146,5 @@
 {% endif %}
         }
 {% endif %}
-    },
-    "SYSLOG_CONFIG": {
-        "GLOBAL": {
-            "format": "standard",
-            "severity": "notice"
-        }
     }
 }

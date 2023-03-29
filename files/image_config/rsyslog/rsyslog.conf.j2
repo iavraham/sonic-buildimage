@@ -23,6 +23,22 @@ $ModLoad imuxsock # provides support for local system logging
 {% if 'rate_limit_burst' in SYSLOG_CONFIG['GLOBAL']%}
 {% set rate_limit_burst = SYSLOG_CONFIG['GLOBAL']['rate_limit_burst'] %}
 {% endif %}
+{% set format = SYSLOG_CONFIG['GLOBAL'].get('format') -%}
+{% set fw_name = SYSLOG_CONFIG['GLOBAL'].get('welf_firewall_name', hostname) -%}
+#
+# Use traditional timestamp format.
+# To enable high precision timestamps, comment out the following line.
+#
+#$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
+
+# Define a custom template
+$template SONiCFileFormat,"%timegenerated%.%timegenerated:::date-subseconds% %HOSTNAME% %syslogseverity-text:::uppercase% %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
+$ActionFileDefaultTemplate SONiCFileFormat
+
+template(name="WelfRemoteFormat" type="string" string="%TIMESTAMP% id=firewall time=\"%timereported\
+:::date-year%-%timereported:::date-month%-%timereported:::date-day% %timereported:::date-hour%:%timereported:::date-minute%:%timereported\
+:::date-second%\" fw=\"{{ fw_name }}\" pri=%syslogpriority% msg=\"%syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\"\n")
+
 {% endif %}
 {% endif %}
 
@@ -50,32 +66,18 @@ $UDPServerRun 514
 #### GLOBAL DIRECTIVES ####
 ###########################
 {% from "defaults.j2" import def_rsyslog -%}
-
 {% set gconf = (SYSLOG_CONFIG | d({})).get('GLOBAL', {}) -%}
-{% set format = gconf.get('format') -%}
-{% set fw_name = gconf.get('welf_firewall_name', hostname) -%}
-#
-# Use traditional timestamp format.
-# To enable high precision timestamps, comment out the following line.
-#
-#$ActionFileDefaultTemplate RSYSLOG_TraditionalFileFormat
-
-# Define a custom template
-$template SONiCFileFormat,"%timegenerated%.%timegenerated:::date-subseconds% %HOSTNAME% %syslogseverity-text:::uppercase% %syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\n"
-$ActionFileDefaultTemplate SONiCFileFormat
-
-template(name="WelfRemoteFormat" type="string" string="%TIMESTAMP% id=firewall time=\"%timereported\
-:::date-year%-%timereported:::date-month%-%timereported:::date-day% %timereported:::date-hour%:%timereported:::date-minute%:%timereported\
-:::date-second%\" fw=\"{{ fw_name }}\" pri=%syslogpriority% msg=\"%syslogtag%%msg:::sp-if-no-1st-sp%%msg:::drop-last-lf%\"\n")
-
 #Set remote syslog server
+{% set default_server_port = 514 -%}
+{% set default_server_proto = 'udp' -%}
+{% set default_server_severity = 'notice' -%}
 {% for server in SYSLOG_SERVER %}
 {% set conf = SYSLOG_SERVER[server] | d({}) -%}
 
-{% set port = conf.get('port', def_rsyslog.port) -%}
-{% set proto = conf.get('protocol', def_rsyslog.proto) -%}
+{% set port = conf.get('port', default_server_port) -%}
+{% set proto = conf.get('protocol', default_server_proto) -%}
 {% set vrf = conf.get('vrf', 'default') -%}
-{% set severity = conf.get('severity', gconf.get('severity', def_rsyslog.severity)) -%}
+{% set severity = conf.get('severity', SYSLOG_CONFIG['GLOBAL'].get('severity', default_server_severity)) -%}
 {% set filter = conf.get('filter') -%}
 {% set regex = conf.get('filter_regex') -%}
 
